@@ -6,8 +6,10 @@ import BoardComponent from '@/components/board/BoardComponent';
 
 function GameScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <BoardComponent/>
+    <View style={{ flex: 1 }}>
+      <View style={{marginTop: 16, marginLeft: 16 }}>
+        <BoardComponent/>
+      </View>
     </View>
   );
 }
