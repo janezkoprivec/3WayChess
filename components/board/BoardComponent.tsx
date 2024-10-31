@@ -1,9 +1,7 @@
+import React from "react";
+
 import { View, Text, Dimensions, ViewStyle } from "react-native";
-import Svg, { Polygon } from "react-native-svg";
-import BlackTile from "./tiles/blackTile";
-import WhiteTile from "./tiles/whiteTile";
-import GreyTile from "./tiles/greyTile";
-import { generateGridPointsMatrix } from "@/utils/PointsMatrixGeneration";
+import Svg, { Polygon, SvgUri } from "react-native-svg";
 import {
   HexagonPoints,
   HexagonPointsUpscaled,
@@ -14,6 +12,24 @@ import {
 import { GridPointsMatrix } from "@/constants/GridFieldsMatrix";
 import { JSX } from "react";
 import { Colors } from "@/constants/Colors";
+import WhiteKing from "./pieces/white/WhiteKing.component";
+import WhiteQueen from "./pieces/white/WhiteQueen.component";
+import BlackQueen from "./pieces/black/BlackQueen.component";
+import BlackKing from "./pieces/black/BlackKing.component";
+import GreyKing from "./pieces/grey/GreyKing.component";
+import BlackKnight from "./pieces/black/BlackKnight.component";
+import BlackBishop from "./pieces/black/BlackBishop.component";
+import BlackPawn from "./pieces/black/BlackPawn.component";
+import BlackRook from "./pieces/black/BlackRook.component";
+import WhiteBishop from "./pieces/white/WhiteBishop.component";
+import WhiteKnight from "./pieces/white/WhiteKnight.component";
+import WhiteRook from "./pieces/white/WhiteRook.component";
+import WhitePawn from "./pieces/white/WhitePawn.component";
+import GreyBishop from "./pieces/grey/GreyBishop.component";
+import GreyKnight from "./pieces/grey/GreyKnight.component";
+import GreyPawn from "./pieces/grey/GreyPawn.component";
+import GreyQueen from "./pieces/grey/GreyQueen.component";
+import GreyRook from "./pieces/grey/GreyRook.component";
 
 const colorResolver = (color: string) => {
   return color === "b"
@@ -91,7 +107,9 @@ const BoardComponent = () => {
   const sideSize = Math.floor(boardSize / 23);
   console.log(sideSize);
 
-  return <View style={{ width: boardSize, height: boardSize }}>{generateBoard(boardSize)}</View>;
+  return <View style={{ width: boardSize, height: boardSize }}>
+  {generateBoard(boardSize)}
+  </View>;
 };
 
 export default BoardComponent;

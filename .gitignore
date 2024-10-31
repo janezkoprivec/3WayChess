@@ -10,6 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 zapiski.txt
+assets/images/pieces/
+
 
 # macOS
 .DS_Store
