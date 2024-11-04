@@ -23,5 +23,34 @@ export const GridPointsMatrix = [
   [null, null, null, new GridField('b', 'D6'), new GridField('w', 'E5'), new GridField('b', 'F5'), new GridField('w', 'G4'), new GridField('b', 'H4'), new GridField('w', 'I3'), new GridField('b', 'J3'), new GridField('w', 'K2'), null, null, null, null],
   [null, null, null, new GridField('g', 'D5'), new GridField('b', 'E4'), new GridField('g', 'F4'), null, null, null, new GridField('g', 'J2'), new GridField('b', 'K1'), null, null, null, null],
   [null, null, null, new GridField('w', 'D4'), null, null, null, null, null, null, null, null, null, null, null],
- 
-]
+];
+
+export const GridColorsMatrix = [
+  [null, null, null, 'b', 'w', null, null, null, null, null, 'w', null, null, null, null],
+  [null, null, null, 'g', 'b', 'g', 'b', null, 'b', 'g', 'b', null, null, null, null],
+  [null, null, null, 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g', null, null, null, null],
+  [null, null, null, 'b', 'w', 'b', 'w', 'b', 'w', 'b', 'w', null, null, null, null],
+  [null, null, 'b', 'g', 'b', 'g', 'b', 'g', 'b', 'g', 'b', 'g', 'b', null, null],
+  ['g', 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g'],
+  [null, 'b', 'w', 'b', 'w', 'b', 'w', 'b', 'w', 'b', 'w', 'b', 'w', 'b', null],
+  [null, null, null, 'g', 'b', 'g', 'b', 'g', 'b', 'g', 'b', 'g', null, null, null],
+  [null, null, null, 'w', 'g', 'w', 'g', 'w', 'g', 'w', 'g', null, null, null, null],
+  [null, null, null, 'b', 'w', 'b', 'w', 'b', 'w', 'b', 'w', null, null, null, null],
+  [null, null, null, 'g', 'b', 'g', null, null, null, 'g', 'b', null, null, null, null],
+  [null, null, null, 'w', null, null, null, null, null, null, null, null, null, null, null]
+];
+
+export const DefaultPositionMatrix = [
+  [null, null, null, 'bR', 'bP', null, null, null, null, null, 'gR', null, null, null, null],
+  [null, null, null, 'bN', 'bP', null, null, null, null, 'gP', 'gN', null, null, null, null],
+  [null, null, null, 'bB', 'bP', null, null, null, null, 'gP', 'gB', null, null, null, null],
+  [null, null, null, 'bQ', 'bP', null, null, null, null, 'gP', 'gK', null, null, null, null],
+  [null, null, 'bB', 'bK', 'bP', null, null, null, null, 'gP', 'gP', 'gQ', 'gB', null, null],
+  ['bR', 'bN', 'bP', 'bP', null, null, null, null, null, null, null, 'gP', 'gP', 'gN', 'gR'],
+  [null, 'bP', null, null, null, null, null, null, null, null, null, null, null, 'gP', null],
+  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, 'wP', 'wP', 'wP', null, null, null, null, null, null],
+  [null, null, null, null, 'wP', 'wP', 'wQ', 'wK', 'wB', 'wP', 'wP', null, null, null, null],
+  [null, null, null, 'wP', 'wN', 'wB', null, null, null, 'wK', 'wR', null, null, null, null],
+  [null, null, null, 'wR', null, null, null, null, null, null, null, null, null, null, null],
+];

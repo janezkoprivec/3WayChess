@@ -23,9 +23,14 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+  // board: {
+  //   black: '#1a1a1a',
+  //   white: '#e0e0e0',
+  //   gray: '#4a4a4a',
+  // }
   board: {
-    black: '#1a1a1a',
-    white: '#e0e0e0',
-    gray: '#4a4a4a',
+    black: '#994c00',
+    white: '#f9dfc6',
+    gray: '#ffb266',
   }
 };
