@@ -111,7 +111,7 @@ const TileComponent: React.FC<TileComponentProps> = ({
   i,
   j,
 }) => {
-  const {highlited, pressed} = useContext(BoardContext);
+  const { highlited, pressed } = useContext(BoardContext);
   const [highlightedTile, setHighlightedTile] = highlited;
   const [pressedTile, setPressedTile] = pressed;
 
@@ -155,24 +155,31 @@ const TileComponent: React.FC<TileComponentProps> = ({
               ? hexPointsStringUpscaled1
               : hexPointsStringUpscaled2
           }
-          fill={ `${i}-${j}` === `${highlightedTile?.i}-${highlightedTile?.j}` ? 'red' : colorResolver(color)}
+          fill={
+            `${i}-${j}` === `${highlightedTile?.i}-${highlightedTile?.j}`
+              ? "red"
+              : colorResolver(color)
+          }
         />
       </Svg>
-      <Pressable onPress={handlePress}>
+      <Pressable
+        onPress={handlePress}
+        style={{
+          width: sideSize * 1.5,
+          height: sideSize * 1.5,
+          left: sideSize / 4,
+          top: sideSize / 6,
+          borderRadius: sideSize / 2,
+        }}
+      >
         {resolveComponent(piece, {
           width: sideSize * 1.5,
           height: sideSize * 1.5,
-          position: "absolute",
-          left: sideSize / 4,
-          top: sideSize / 6,
         }) ?? (
           <View
             style={{
               width: sideSize * 1.5,
               height: sideSize * 1.5,
-              position: "absolute",
-              left: sideSize / 4,
-              top: sideSize / 6,
             }}
           />
         )}

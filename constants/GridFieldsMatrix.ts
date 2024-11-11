@@ -51,6 +51,6 @@ export const DefaultPositionMatrix = [
   [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, 'wP', 'wP', 'wP', null, null, null, null, null, null],
   [null, null, null, null, 'wP', 'wP', 'wQ', 'wK', 'wB', 'wP', 'wP', null, null, null, null],
-  [null, null, null, 'wP', 'wN', 'wB', null, null, null, 'wK', 'wR', null, null, null, null],
+  [null, null, null, 'wP', 'wN', 'wB', null, null, null, 'wN', 'wR', null, null, null, null],
   [null, null, null, 'wR', null, null, null, null, null, null, null, null, null, null, null],
 ];
