@@ -1,5 +1,5 @@
-import { TouchableOpacity, View } from "react-native";
-import React from "react";
+import { Pressable, TouchableOpacity, View } from "react-native";
+import React, { useContext } from "react";
 import { ViewStyle } from "react-native";
 
 import WhiteKing from "./pieces/white/WhiteKing.component";
@@ -27,15 +27,20 @@ import {
 } from "@/constants/HexagonConstants";
 import Svg, { Polygon } from "react-native-svg";
 import { Colors } from "@/constants/Colors";
+import { TileIndexTuple } from "./BoardComponent";
+import { BoardContext } from "./BoardComponent";
 
 const colorResolver = (color: string) => {
-  return color === "b"
-    ? Colors.board.black
-    : color === "w"
-    ? Colors.board.white
-    : color === "g"
-    ? Colors.board.gray
-    : "red";
+  switch (color) {
+    case "b":
+      return Colors.board.black;
+    case "w":
+      return Colors.board.white;
+    case "g":
+      return Colors.board.gray;
+    default:
+      return "red";
+  }
 };
 
 const resolveComponent = (piece: string | null, style?: ViewStyle) => {
@@ -94,6 +99,7 @@ interface TileComponentProps {
   sideSize: number;
   i: number;
   j: number;
+  highlited: boolean;
 }
 
 const TileComponent: React.FC<TileComponentProps> = ({
@@ -105,6 +111,10 @@ const TileComponent: React.FC<TileComponentProps> = ({
   i,
   j,
 }) => {
+  const {highlited, pressed} = useContext(BoardContext);
+  const [highlightedTile, setHighlightedTile] = highlited;
+  const [pressedTile, setPressedTile] = pressed;
+
   const hexPointsStringUpscaled1 = HexagonPointsUpscaled1.map(
     (point) => `${point.x * sideSize},${point.y * sideSize}`
   ).join(" ");
@@ -118,7 +128,8 @@ const TileComponent: React.FC<TileComponentProps> = ({
   ).join(" ");
 
   const handlePress = () => {
-    console.log(`${i}-${j}`);
+    console.log("pressed", i, j);
+    setPressedTile({ i, j } as TileIndexTuple);
   };
 
   return (
@@ -130,34 +141,43 @@ const TileComponent: React.FC<TileComponentProps> = ({
         left: (sideSize + Math.cos(Math.PI / 3) * sideSize) * j,
       }}
     >
-      <TouchableOpacity
-        onPress={handlePress}
+      <Svg
+        key={`${i}-${j}`}
+        width={2 * sideSize + 4}
+        height={hexHeight + 4}
+        style={{ position: "absolute", top: 0, left: 0 }}
       >
-        <Svg
-          key={`${i}-${j}`}
-          width={2 * sideSize + 4}
-          height={hexHeight + 4}
-          style={{ position: "absolute", top: 0, left: 0 }}
-        >
-          <Polygon
-            points={
-              color === "w"
-                ? hexPointsStringUpscaled3
-                : color === "b"
-                ? hexPointsStringUpscaled1
-                : hexPointsStringUpscaled2
-            }
-            fill={colorResolver(color)}
-          />
-        </Svg>
+        <Polygon
+          points={
+            color === "w"
+              ? hexPointsStringUpscaled3
+              : color === "b"
+              ? hexPointsStringUpscaled1
+              : hexPointsStringUpscaled2
+          }
+          fill={ `${i}-${j}` === `${highlightedTile?.i}-${highlightedTile?.j}` ? 'red' : colorResolver(color)}
+        />
+      </Svg>
+      <Pressable onPress={handlePress}>
         {resolveComponent(piece, {
           width: sideSize * 1.5,
           height: sideSize * 1.5,
           position: "absolute",
           left: sideSize / 4,
           top: sideSize / 6,
-        })}
-      </TouchableOpacity>
+        }) ?? (
+          <View
+            style={{
+              width: sideSize * 1.5,
+              height: sideSize * 1.5,
+              position: "absolute",
+              left: sideSize / 4,
+              top: sideSize / 6,
+            }}
+          />
+        )}
+        {/* just an empty clickable view smaller than hexagon to avoid wrong click outside of hex border */}
+      </Pressable>
     </View>
   );
 };
