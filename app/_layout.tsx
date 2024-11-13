@@ -1,23 +1,21 @@
-import { Slot, Stack } from "expo-router";
-import { useColorScheme } from 'react-native';
+import { Stack } from "expo-router";
 import { Colors } from '@/constants/Colors';
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  
+export default function RootLayout() {  
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: Colors[colorScheme ?? 'dark'].background,
+          backgroundColor: Colors['dark'].background2,
         },
-        headerTintColor: Colors[colorScheme ?? 'dark'].text,
+        headerTintColor: Colors['dark'].text,
         contentStyle: {
-          backgroundColor: Colors[colorScheme ?? 'dark'].background,
-        }
+          backgroundColor: Colors['dark'].background,
+        }, 
+        headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="index" options={{ title: '3WayChess'}}/>
     </Stack>
   );
 }

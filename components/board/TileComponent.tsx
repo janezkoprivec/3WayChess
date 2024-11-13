@@ -128,7 +128,6 @@ const TileComponent: React.FC<TileComponentProps> = ({
   ).join(" ");
 
   const handlePress = () => {
-    console.log("pressed", i, j);
     setPressedTile({ i, j } as TileIndexTuple);
   };
 

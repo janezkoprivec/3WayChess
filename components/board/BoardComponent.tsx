@@ -54,9 +54,9 @@ const BoardComponent = () => {
   const movePieceFromHighlightedToPressed = (piece: string) => {
     setBoard(board.map(row => row.map(tile => {
       if (tile.props.i === pressedTile!.i && tile.props.j === pressedTile!.j) {
-        return (<TileComponent {...tile.props} piece={piece}></TileComponent>);
+        return (<TileComponent key={`${tile.props.i}-${tile.props.j}`} {...tile.props} piece={piece}></TileComponent>);
       } else if (tile.props.i === highlightedTile!.i && tile.props.j === highlightedTile!.j) {
-        return (<TileComponent {...tile.props} piece={null}></TileComponent>);
+        return (<TileComponent key={`${tile.props.i}-${tile.props.j}`} {...tile.props} piece={null}></TileComponent>);
       }
       return tile;
     })));  }
@@ -94,7 +94,6 @@ const BoardComponent = () => {
   );
 
   useEffect(() => {
-    console.log(highlightedTile);
   }, [highlightedTile]);
   return (
     <BoardContext.Provider value={{highlited: [highlightedTile, setHighlightedTile], pressed: [pressedTile, setPressedTile]}}>
