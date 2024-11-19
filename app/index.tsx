@@ -1,7 +1,11 @@
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { Button, Platform, View, Text } from "react-native";
 import { useColorScheme } from "react-native";
 import { Colors } from "@/constants/Colors";
+
+import { Manager } from "socket.io-client";
+import GameRoomsComponent from "@/components/games/GameRoomsComponent";
+import StyledButton from "@/components/styled/StyledButtonComponent";
 
 export default function Index() {
   const colorScheme = useColorScheme();
@@ -17,19 +21,13 @@ export default function Index() {
         alignSelf: "center",
       }}
     >
-      <Link href="/game/1" asChild>
-        <View style={{padding: 16, backgroundColor: Colors["dark"].primary, borderRadius: 16}}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              color: Colors["dark"].text,
-            }}
-          >
-            Start an offline game
-          </Text>
-        </View>
-      </Link>
+      <GameRoomsComponent />
+      <View style={{ flex: 1, justifyContent: "space-between", alignItems: "flex-start", flexDirection: 'row', gap: 16 }}>
+        <StyledButton size="md" text="New online game" onPress={() => {}} />
+        <Link href="/game/1" asChild>
+          <StyledButton size="md" text="New offline game" />
+        </Link>
+      </View>
     </View>
   );
 }
