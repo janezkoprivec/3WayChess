@@ -46,7 +46,7 @@ export default function GameListItemComponent({ game }: { game: Game }) {
             {game.timeControl.increment > 0 ? (
               <>
                 <StyledText style={styles.timeControl}>
-                  {game.timeControl.time / 60}
+                  {game.timeControl.time}
                 </StyledText>
                 <StyledText style={styles.timeControl}>|</StyledText>
                 <StyledText style={styles.timeControl}>
@@ -55,7 +55,7 @@ export default function GameListItemComponent({ game }: { game: Game }) {
               </>
             ) : (
               <StyledText style={styles.timeControl}>
-                {game.timeControl.time / 60} min
+                {game.timeControl.time} min
               </StyledText>
             )}
           </View>
