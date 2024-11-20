@@ -8,13 +8,13 @@ export type Game = {
 }
 
 export type User = {
-  id: string;
+  _id: string;
   username: string;
   profilePictureUrl: string;
 }
 
 export type Player = {
-  id: string;
+  _id: string;
   user: User;
   color: string;
 }

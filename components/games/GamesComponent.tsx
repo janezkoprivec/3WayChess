@@ -7,11 +7,14 @@ import StyledButton from "@/components/styled/StyledButtonComponent";
 import { Manager } from "socket.io-client";
 import GameListItemComponent from "./items/GameListItemComponent";
 import GameJoinDialog from "./dialogs/GameJoinDialog";
+import CreateGameDialog from './dialogs/CreateGameDialog';
+import StyledText from "../styled/StyledTextComponent";
 
 export default function GamesComponent() {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [createDialogVisible, setCreateDialogVisible] = useState(false);
 
   const setUpSockets = () => {
     const socketManager = new Manager("http://localhost:3000");
@@ -39,17 +42,17 @@ export default function GamesComponent() {
     setDialogVisible(false);
   };
 
+  const handleCreateGame = (gameName: string, selectedColor: string) => {
+    // TODO: Implement game creation logic
+    console.log('Creating game:', { gameName, selectedColor });
+    setCreateDialogVisible(false);
+  };
+
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: Colors["dark"].background,
-        height: "100%",
-        alignSelf: "center",  
-      }}
+      style={styles.wrapper}
     >
+      <StyledText style={styles.title}>Online games</StyledText>
       <View style={styles.container}>
         <ScrollView>
           {games.map((game) => (
@@ -70,6 +73,12 @@ export default function GamesComponent() {
         onJoin={handleJoinGame}
       />
 
+      <CreateGameDialog
+        visible={createDialogVisible}
+        onClose={() => setCreateDialogVisible(false)}
+        onCreate={handleCreateGame}
+      />
+
       <View
         style={{
           flex: 1,
@@ -80,7 +89,11 @@ export default function GamesComponent() {
           marginTop: 16,
         }}
       >
-        <StyledButton size="lg" text="New online game" onPress={() => {}} />
+        <StyledButton 
+          size="lg" 
+          text="New online game" 
+          onPress={() => setCreateDialogVisible(true)} 
+        />
         <Link href="/game/1" asChild>
           <StyledButton size="lg" text="New offline game" />
         </Link>
@@ -93,5 +106,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    marginTop: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 700,
+    marginTop: 32,
+  },
+  wrapper: {
+    marginTop: 16,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors["dark"].background,
+    height: "100%",
+    alignSelf: "center",
   },
 });
