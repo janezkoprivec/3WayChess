@@ -42,7 +42,7 @@ export default function GameJoinDialog({
         >
           <View
             onStartShouldSetResponder={() => true}
-            style={{ width: "100%", height: "100%" }}
+            style={styles.dialogContent}
           >
             <StyledText style={styles.title}>Join Game</StyledText>
             <View style={styles.container}>
@@ -115,6 +115,13 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     gap: 16,
   },
+  dialogContent: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
@@ -122,6 +129,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontWeight: 700,
+    marginBottom: 8,
   },
   buttonContainer: {
     flexDirection: "row",
