@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Game } from "@/models/db/GameModels";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import StyledButton from "@/components/styled/StyledButtonComponent";
 import { Manager } from "socket.io-client";
 import GameListItemComponent from "./items/GameListItemComponent";
+import GameJoinDialog from "./dialogs/GameJoinDialog";
 
 export default function GamesComponent() {
   const [games, setGames] = useState<Game[]>([]);
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [dialogVisible, setDialogVisible] = useState(false);
 
   const setUpSockets = () => {
     const socketManager = new Manager("http://localhost:3000");
@@ -25,6 +28,16 @@ export default function GamesComponent() {
     setUpSockets();
   }, [])
 
+  const handleGamePress = (game: Game) => {
+    setSelectedGame(game);
+    setDialogVisible(true);
+  };
+
+  const handleJoinGame = (gameId: string) => {
+    // TODO: Implement game joining logic
+    console.log('Joining game:', gameId);
+    setDialogVisible(false);
+  };
 
   return (
     <View
@@ -40,10 +53,23 @@ export default function GamesComponent() {
       <View style={styles.container}>
         <ScrollView>
           {games.map((game) => (
-            <GameListItemComponent key={game._id} game={game} />
+            <Pressable 
+              key={game._id} 
+              onPress={() => handleGamePress(game)}
+            >
+              <GameListItemComponent game={game} />
+            </Pressable>
           ))}
         </ScrollView>
       </View>
+      
+      <GameJoinDialog
+        game={selectedGame}
+        visible={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        onJoin={handleJoinGame}
+      />
+
       <View
         style={{
           flex: 1,
@@ -51,11 +77,12 @@ export default function GamesComponent() {
           alignItems: "flex-start",
           flexDirection: "row",
           gap: 16,
+          marginTop: 16,
         }}
       >
-        <StyledButton size="md" text="New online game" onPress={() => {}} />
+        <StyledButton size="lg" text="New online game" onPress={() => {}} />
         <Link href="/game/1" asChild>
-          <StyledButton size="md" text="New offline game" />
+          <StyledButton size="lg" text="New offline game" />
         </Link>
       </View>
     </View>

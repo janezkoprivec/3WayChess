@@ -1,13 +1,9 @@
 import { View } from "react-native";
-import { useColorScheme } from "react-native";
 import { Colors } from "@/constants/Colors";
 
 import GameRoomsComponent from "@/components/games/GamesComponent";
 
 export default function Index() {
-  const colorScheme = useColorScheme();
-
-
   return (
     <View
       style={{
@@ -19,7 +15,9 @@ export default function Index() {
         alignSelf: "center",
       }}
     >
-      <GameRoomsComponent />
-    </View>
+      <View>
+        <GameRoomsComponent />
+      </View>
+    </View>             
   );
 }

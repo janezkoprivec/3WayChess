@@ -11,13 +11,13 @@ export default function GameListItemComponent({ game }: { game: Game }) {
     <View style={styles.container}>
       <View style={styles.nameContainer}>
         <StyledText style={styles.name}>
-          {game.players[0] ? game.players[0].user.username : "(empty)"} (rating)
+          {game.players[0] ? game.players[0].user.username : "(empty)"} 
         </StyledText>
         <StyledText style={styles.name}>
-          {game.players[1] ? game.players[1].user.username : "(empty)"} (rating)
+          {game.players[1] ? game.players[1].user.username : "(empty)"} 
         </StyledText>
         <StyledText style={styles.name}>
-          {game.players[2] ? game.players[2].user.username : "(empty)"} (rating)
+          {game.players[2] ? game.players[2].user.username : "(empty)"} 
         </StyledText>
       </View>
 
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    cursor: "pointer",
   },
   name: {
     fontSize: 14,

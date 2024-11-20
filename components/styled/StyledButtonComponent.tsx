@@ -10,13 +10,15 @@ export type StyledButtonProps = {
 }
 
 export default forwardRef<typeof Pressable, StyledButtonProps>(function StyledButton(props, ref) {
-  const { fontSize = 20, size, text, onPress } = props;
-  const s = size === 'sm' ? 8 : size === 'md' ? 12 : 16;
+  const { size, text, onPress } = props;
+  const s = size === 'sm' ? 6 : size === 'md' ? 8 : 12;
+  const s2 = s + 4; 
+  const fontSize = size === 'sm' ? 12 : size === 'md' ? 16 : 20;
 
   return (
     <Pressable 
       onPress={onPress} 
-      style={{ padding: s, backgroundColor: Colors["dark"].primary, borderRadius: s }}
+      style={{ paddingHorizontal: s2, paddingVertical: s, backgroundColor: Colors["dark"].primary, borderRadius: s }}
     >
       <Text style={{ fontSize: fontSize, fontWeight: "bold", color: Colors["dark"].text }}>
         {text}

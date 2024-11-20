@@ -10,6 +10,7 @@ export type Game = {
 export type User = {
   id: string;
   username: string;
+  profilePictureUrl: string;
 }
 
 export type Player = {
