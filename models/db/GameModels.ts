@@ -20,6 +20,7 @@ export type Player = {
 }
 
 export type TimeControl = {
+  name: string;
   type: "rapid" | "blitz" | "bullet";
   time: number; // in minutes
   increment: number; // in seconds

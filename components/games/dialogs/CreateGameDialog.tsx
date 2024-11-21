@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Colors } from "@/constants/Colors";
 import StyledDialog from "@/components/styled/StyledDialogComponent";
 import SelectColorComponent from "@/components/styled/SelectColorComponent";
-import SelectTimeControlComponent, {
-  TimeControl,
-} from "@/components/styled/SelectTimeControlComponent";
+import SelectTimeControlComponent from "@/components/styled/SelectTimeControlComponent";
+import { TimeControl } from "@/models/db/GameModels";
 
 interface CreateGameDialogProps {
   visible: boolean;
@@ -23,12 +22,12 @@ export default function CreateGameDialog({
   onCreate,
 }: CreateGameDialogProps) {
   const [gameName, setGameName] = useState("");
-  const [selectedColor, setSelectedColor] = useState("random");
+  const [selectedColor, setSelectedColor] = useState("ran dom");
   const [selectedTimeControl, setSelectedTimeControl] = useState<TimeControl>({
     name: "10+0",
     time: 10,
     increment: 0,
-    category: "rapid",
+    type: "rapid",
   });
 
   const handleCreate = () => {
@@ -39,7 +38,7 @@ export default function CreateGameDialog({
       name: "10+0",
       time: 10,
       increment: 0,
-      category: "rapid",
+      type: "rapid",
     });
   };
 

@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 
 interface StyledDialogProps {
   visible: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onSubmit?: () => void;
   title: string;
   children: ReactNode;
@@ -44,11 +44,13 @@ export default function StyledDialog({
             {children}
 
             <View style={styles.buttonContainer}>
-              <StyledButton 
-                size="md" 
+              {onClose && (
+                <StyledButton 
+                  size="md" 
                 text={closeButtonText} 
-                onPress={onClose} 
-              />
+                  onPress={onClose} 
+                />
+              )}
               {onSubmit && (
                 <StyledButton
                   size="md"

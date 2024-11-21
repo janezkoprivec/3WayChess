@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Game } from "@/models/db/GameModels";
+import { Game, TimeControl } from "@/models/db/GameModels";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import StyledButton from "@/components/styled/StyledButtonComponent";
-import { Manager } from "socket.io-client";
+import { Manager, Socket } from "socket.io-client";
 import GameListItemComponent from "./items/GameListItemComponent";
 import GameJoinDialog from "./dialogs/GameJoinDialog";
 import CreateGameDialog from './dialogs/CreateGameDialog';
@@ -15,11 +15,14 @@ export default function GamesComponent() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [createDialogVisible, setCreateDialogVisible] = useState(false);
+  const [gamesSocket, setGamesSocket] = useState<Socket | null>(null);
 
   const setUpSockets = () => {
     const socketManager = new Manager("http://localhost:3000");
     
     const gamesSocket = socketManager.socket("/games");
+
+    setGamesSocket(gamesSocket);
 
     gamesSocket.on("waiting-games", (games) => {
       setGames(games);
@@ -42,10 +45,12 @@ export default function GamesComponent() {
     setDialogVisible(false);
   };
 
-  const handleCreateGame = (gameName: string, selectedColor: string) => {
+  const handleCreateGame = (gameName: string, selectedColor: string, timeControl: TimeControl) => {
     // TODO: Implement game creation logic
-    console.log('Creating game:', { gameName, selectedColor });
+    console.log('Creating game:', { gameName, selectedColor, timeControl });
     setCreateDialogVisible(false);
+
+    // gamesSocket?.emit("create", { gameName, selectedColor, timeControl });
   };
 
   return (

@@ -5,30 +5,24 @@ import BulletIcon from "../svg-icons/bullet";
 import StyledText from "./StyledTextComponent";
 import BlitzIcon from "../svg-icons/blitz";
 import RapidIcon from "../svg-icons/rapid";
-
-export interface TimeControl {
-  name: string;
-  time: number; // Time in minutes
-  increment: number; // Increment in seconds
-  category: "bullet" | "blitz" | "rapid" | "classical";
-}
+import { TimeControl } from "@/models/db/GameModels"; 
 
 const bulletTimeControls: TimeControl[] = [
-  { name: "1+0", time: 1, increment: 0, category: "bullet" },
-  { name: "1+1", time: 1, increment: 1, category: "bullet" },
-  { name: "2+1", time: 2, increment: 1, category: "bullet" },
+  { name: "1+0", time: 1, increment: 0, type: "bullet" },
+  { name: "1+1", time: 1, increment: 1, type: "bullet" },
+  { name: "2+1", time: 2, increment: 1, type: "bullet" },
 ];
 
 const blitzTimeControls: TimeControl[] = [
-  { name: "3+0", time: 3, increment: 0, category: "blitz" },
-  { name: "3+2", time: 3, increment: 2, category: "blitz" },
-  { name: "5+0", time: 5, increment: 0, category: "blitz" },
+  { name: "3+0", time: 3, increment: 0, type: "blitz" },
+  { name: "3+2", time: 3, increment: 2, type: "blitz" },
+  { name: "5+0", time: 5, increment: 0, type: "blitz" },
 ];
 
 const rapidTimeControls: TimeControl[] = [
-  { name: "10+0", time: 10, increment: 0, category: "rapid" },
-  { name: "15+10", time: 15, increment: 10, category: "rapid" },
-  { name: "30+0", time: 30, increment: 0, category: "rapid" },
+  { name: "10+0", time: 10, increment: 0, type: "rapid" },
+  { name: "15+10", time: 15, increment: 10, type: "rapid" },
+  { name: "30+0", time: 30, increment: 0, type: "rapid" },
 ];
 
 interface SelectTimeControlComponentProps {
