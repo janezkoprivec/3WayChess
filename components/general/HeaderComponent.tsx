@@ -3,13 +3,15 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { User } from '@/models/db/GameModels';
 import { useUser } from '@/contexts/UserContext';
+import useAuth from '@/contexts/AuthContext';
+import StyledButtonComponent from '../styled/StyledButtonComponent';
 
 interface HeaderProps {
   title: string;
 }
 
 export const HeaderComponent: React.FC<HeaderProps> = ({ title }) => {
-  const {user} = useUser();
+  const auth = useAuth();
 
   return (
     <View style={styles.container}>
@@ -17,13 +19,19 @@ export const HeaderComponent: React.FC<HeaderProps> = ({ title }) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       
-      <View style={styles.userContainer}>
+      {/* <View style={styles.userContainer}>
         {user?.username ? (
           <Text style={styles.username}>Welcome, {user.username}</Text>
         ) : (
           <Text style={styles.username}>Guest</Text>
         )}
-      </View>
+      </View> */} 
+
+      <StyledButtonComponent
+        text="Log Out"
+        onPress={auth.onLogout}
+        size="md"
+      />
     </View>
   );
 };
