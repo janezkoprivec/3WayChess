@@ -8,7 +8,12 @@ export interface AuthProps {
     token: string | null;
     authenticated: boolean | null;
     isLoading: boolean;
+    user?: {
+      id: string;
+      username: string;
+    };
   };
+
   onRegister?: (
     email: string,
     username: string,
@@ -19,6 +24,7 @@ export interface AuthProps {
 }
 
 const TOKEN_KEY = "jwt-token";
+const USER_KEY = "user";
 const API_URL = "http://localhost:3000";
 const AuthContext = createContext<AuthProps>({});
 
@@ -31,6 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     token: null,
     authenticated: null,
     isLoading: false,
+    user: undefined,
   });
 
   const setLoading = (isLoading: boolean) => {
@@ -38,22 +45,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       token: auth?.token ?? null,
       authenticated: auth?.authenticated ?? null,
       isLoading,
+      user: auth?.user ?? undefined,
     });
   };
 
   useEffect(() => {
-    const loadToken = async () => {
+    const loadTokenAndUser = async () => {
       setLoading(true);
       const token = await AsyncStorage.getItem(TOKEN_KEY);
+      const user = await AsyncStorage.getItem(USER_KEY);
       if (token) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        setAuth({ token: token, authenticated: true, isLoading: false });
+        setAuth({ token: token, authenticated: true, isLoading: false, user: user ? JSON.parse(user) : undefined });
       } else {
-        setAuth({ token: null, authenticated: false, isLoading: false });
+        setAuth({ token: null, authenticated: false, isLoading: false, user: undefined });
       }
     };
 
-    loadToken();
+    loadTokenAndUser();
   }, []);
 
   const register = async (
@@ -117,11 +126,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         token: response.data.token,
         authenticated: true,
         isLoading: false,
+        user: {
+          id: response.data.user._id,
+          username: response.data.user.username,
+        },
       };
 
       axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
 
       await AsyncStorage.setItem(TOKEN_KEY, response.data.token);
+      await AsyncStorage.setItem(USER_KEY, JSON.stringify(newAuthState.user));
 
       setAuth(newAuthState);
 
@@ -131,6 +145,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         token: null,
         authenticated: false,
         isLoading: false,
+        user: undefined,
       });
 
       return {

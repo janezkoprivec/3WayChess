@@ -9,13 +9,19 @@ import GameListItemComponent from "./items/GameListItemComponent";
 import GameJoinDialog from "./dialogs/GameJoinDialog";
 import CreateGameDialog from "./dialogs/CreateGameDialog";
 import StyledText from "../styled/StyledTextComponent";
+import useAuth from "@/contexts/AuthContext";
+import GameWaitingDialog from "./dialogs/GameWaitingDialog";
 
 export default function GamesComponent() {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [joinedGame, setJoinedGame] = useState<Game | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [createDialogVisible, setCreateDialogVisible] = useState(false);
+  const [waitingDialogVisible, setWaitingDialogVisible] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string>("random");
   const [gamesSocket, setGamesSocket] = useState<Socket | null>(null);
+  const auth = useAuth(); 
 
   const setUpSockets = () => {
     const socketManager = new Manager("http://localhost:3000");
@@ -26,6 +32,15 @@ export default function GamesComponent() {
 
     gamesSocket.on("waiting-games", (games) => {
       setGames(games);
+    });
+
+    gamesSocket.on("game-created", (game) => {
+      setJoinedGame(game);
+      setWaitingDialogVisible(true);
+    });
+
+    gamesSocket.on("error", (error) => {
+      console.log("Server error:", error);
     });
   };
 
@@ -38,10 +53,12 @@ export default function GamesComponent() {
     setDialogVisible(true);
   };
 
-  const handleJoinGame = (gameId: string) => {
-    // TODO: Implement game joining logic
-    console.log("Joining game:", gameId);
+  const handleJoinGame = (game: Game, selectedColor: string) => {
     setDialogVisible(false);
+    setSelectedGame(null);
+    setJoinedGame(game);
+    setWaitingDialogVisible(true);
+    
   };
 
   const handleCreateGame = (
@@ -49,11 +66,12 @@ export default function GamesComponent() {
     selectedColor: string,
     timeControl: TimeControl
   ) => {
-    // TODO: Implement game creation logic
-    console.log("Creating game:", { gameName, selectedColor, timeControl });
     setCreateDialogVisible(false);
-
-    // gamesSocket?.emit("create", { gameName, selectedColor, timeControl });
+    if (auth.authState?.user) {
+      gamesSocket?.emit("create", { gameName, selectedColor, timeControl, user: auth.authState.user });
+    } else {
+      console.log("User not found");
+    }
   };
 
   return (
@@ -82,6 +100,15 @@ export default function GamesComponent() {
           onClose={() => setCreateDialogVisible(false)}
           onCreate={handleCreateGame}
         />
+
+        {joinedGame && (
+          <GameWaitingDialog
+            game={joinedGame}
+            visible={waitingDialogVisible}
+            onClose={() => setWaitingDialogVisible(false)}
+            selectedColor={selectedColor}
+          />
+        )}
 
         <View
           style={{

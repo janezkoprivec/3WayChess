@@ -12,6 +12,7 @@ interface StyledDialogProps {
   children: ReactNode;
   closeButtonText?: string;
   submitButtonText?: string;
+  uncloseable?: boolean;
 }
 
 export default function StyledDialog({
@@ -22,15 +23,26 @@ export default function StyledDialog({
   children,
   closeButtonText = "Cancel",
   submitButtonText = "Submit",
+  uncloseable = false,
 }: StyledDialogProps) {
+  const handleOverlayPress = () => {
+    if (!uncloseable && onClose) {
+      onClose();
+    }
+  };
+
   return (
     <Modal
       animationType="fade"
       transparent={true}
       visible={visible}
-      onRequestClose={onClose}
+      onRequestClose={() => {
+        if (!uncloseable && onClose) {
+          onClose();
+        }
+      }}
     >
-      <Pressable style={styles.overlay} onPress={onClose}>
+      <Pressable style={styles.overlay} onPress={handleOverlayPress}>
         <Pressable 
           onPress={(event) => event.stopPropagation()}
           style={styles.dialogContainer}
@@ -44,10 +56,10 @@ export default function StyledDialog({
             {children}
 
             <View style={styles.buttonContainer}>
-              {onClose && (
+              {!uncloseable && onClose && (
                 <StyledButton 
                   size="md" 
-                text={closeButtonText} 
+                  text={closeButtonText} 
                   onPress={onClose} 
                 />
               )}

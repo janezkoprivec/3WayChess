@@ -16,7 +16,7 @@ interface GameJoinDialogProps {
   game: Game | null;
   visible: boolean;
   onClose: () => void;
-  onJoin: (gameId: string) => void;
+  onJoin: (game: Game, selectedColor: string) => void;
 }
 
 export default function GameJoinDialog({
@@ -33,7 +33,7 @@ export default function GameJoinDialog({
     <StyledDialog
       visible={visible}
       onClose={onClose}
-      onSubmit={() => onJoin(game._id)}
+      onSubmit={() => onJoin(game, selectedColor)}
       title="Join Game"
       submitButtonText="Join"
     >
