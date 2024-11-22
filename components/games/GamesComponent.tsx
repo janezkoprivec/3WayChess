@@ -7,7 +7,7 @@ import StyledButton from "@/components/styled/StyledButtonComponent";
 import { Manager, Socket } from "socket.io-client";
 import GameListItemComponent from "./items/GameListItemComponent";
 import GameJoinDialog from "./dialogs/GameJoinDialog";
-import CreateGameDialog from './dialogs/CreateGameDialog';
+import CreateGameDialog from "./dialogs/CreateGameDialog";
 import StyledText from "../styled/StyledTextComponent";
 
 export default function GamesComponent() {
@@ -19,7 +19,7 @@ export default function GamesComponent() {
 
   const setUpSockets = () => {
     const socketManager = new Manager("http://localhost:3000");
-    
+
     const gamesSocket = socketManager.socket("/games");
 
     setGamesSocket(gamesSocket);
@@ -27,12 +27,11 @@ export default function GamesComponent() {
     gamesSocket.on("waiting-games", (games) => {
       setGames(games);
     });
-  }
-  
+  };
 
   useEffect(() => {
     setUpSockets();
-  }, [])
+  }, []);
 
   const handleGamePress = (game: Game) => {
     setSelectedGame(game);
@@ -41,67 +40,70 @@ export default function GamesComponent() {
 
   const handleJoinGame = (gameId: string) => {
     // TODO: Implement game joining logic
-    console.log('Joining game:', gameId);
+    console.log("Joining game:", gameId);
     setDialogVisible(false);
   };
 
-  const handleCreateGame = (gameName: string, selectedColor: string, timeControl: TimeControl) => {
+  const handleCreateGame = (
+    gameName: string,
+    selectedColor: string,
+    timeControl: TimeControl
+  ) => {
     // TODO: Implement game creation logic
-    console.log('Creating game:', { gameName, selectedColor, timeControl });
+    console.log("Creating game:", { gameName, selectedColor, timeControl });
     setCreateDialogVisible(false);
 
     // gamesSocket?.emit("create", { gameName, selectedColor, timeControl });
   };
 
   return (
-    <View
-      style={styles.wrapper}
-    >
-      <StyledText style={styles.title}>Online games</StyledText>
-      <View style={styles.container}>
-        <ScrollView>
-          {games.map((game) => (
-            <Pressable 
-              key={game._id} 
-              onPress={() => handleGamePress(game)}
-            >
-              <GameListItemComponent game={game} />
-            </Pressable>
-          ))}
-        </ScrollView>
-      </View>
-      
-      <GameJoinDialog
-        game={selectedGame}
-        visible={dialogVisible}
-        onClose={() => setDialogVisible(false)}
-        onJoin={handleJoinGame}
-      />
+    <View style={styles.wrapper}>
+      <View >
+        <StyledText style={styles.title}>Online games</StyledText>
+        <View style={styles.container}>
+          <ScrollView>
+            {games.map((game) => (
+              <Pressable key={game._id} onPress={() => handleGamePress(game)}>
+                <GameListItemComponent game={game} />
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
 
-      <CreateGameDialog
-        visible={createDialogVisible}
-        onClose={() => setCreateDialogVisible(false)}
-        onCreate={handleCreateGame}
-      />
-
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          flexDirection: "row",
-          gap: 16,
-          marginTop: 16,
-        }}
-      >
-        <StyledButton 
-          size="lg" 
-          text="New online game" 
-          onPress={() => setCreateDialogVisible(true)} 
+        <GameJoinDialog
+          game={selectedGame}
+          visible={dialogVisible}
+          onClose={() => setDialogVisible(false)}
+          onJoin={handleJoinGame}
         />
-        <Link href="/game/1" asChild>
-          <StyledButton size="lg" text="New offline game" />
-        </Link>
+
+        <CreateGameDialog
+          visible={createDialogVisible}
+          onClose={() => setCreateDialogVisible(false)}
+          onCreate={handleCreateGame}
+        />
+
+        <View
+          style={{
+            // flex: 1,
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            flexDirection: "row",
+            gap: 16,
+            marginTop: 16,
+            marginBottom: 64,
+          }}
+        >
+          <StyledButton
+            style={styles.button}
+            size="lg"
+            text="New online game"
+            onPress={() => setCreateDialogVisible(true)}
+          />
+          <Link href="/game/1" asChild>
+            <StyledButton style={styles.button} size="lg" text="New offline game" />
+          </Link>
+        </View>
       </View>
     </View>
   );
@@ -109,22 +111,22 @@ export default function GamesComponent() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
     width: "100%",
-    marginTop: 16,
+    maxHeight: "50%",
   },
   title: {
     fontSize: 20,
     fontWeight: 700,
-    marginTop: 32,
+    marginTop: 64,
+    marginBottom: 16,
   },
   wrapper: {
-    marginTop: 16,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Colors["dark"].background,
-    height: "100%",
-    alignSelf: "center",
+    width: "90%",
+    maxWidth: 500,
+  },
+  button: {
+    flex: 1,
   },
 });

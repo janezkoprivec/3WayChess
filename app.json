@@ -7,8 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "dark",
-    "entryPoint": "./App.tsx",
-
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -24,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "three.way.chess"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +36,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "adf7f797-903e-42bb-bf22-eb11e58070c7"
+      }
     }
   }
 }

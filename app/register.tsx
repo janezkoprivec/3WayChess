@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity } from 'react-native';
 import { Colors } from '../constants/Colors';
-import StyledInputComponent from '../components/styled/StyledInputComponent';
-import StyledButtonComponent from '../components/styled/StyledButtonComponent';
 import useAuth from '../contexts/AuthContext';
 import { router } from 'expo-router';
+import { Link } from 'expo-router';
+import StyledText from '@/components/styled/StyledTextComponent';
+import StyledButton from '@/components/styled/StyledButtonComponent';
+import StyledInputComponent from '@/components/styled/StyledInputComponent';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -17,7 +19,7 @@ export default function RegisterScreen() {
     password: '',
     confirmPassword: '',
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const { onRegister } = useAuth();
 
   const validateForm = () => {
@@ -84,62 +86,128 @@ export default function RegisterScreen() {
     }
   };
 
+  const handleSubmit = (e?: any) => {
+    // Prevent default form submission on web
+    if (Platform.OS === 'web') {
+      e?.preventDefault();
+    }
+    handleRegister();
+  };
+
+  const formContent = (
+    <View style={{display: "flex", flexDirection: "column", gap: 10}}>
+    <StyledText style={{ 
+            fontSize: 24, 
+            fontWeight: 'bold', 
+            marginBottom: 20,
+            textAlign: 'center'
+          }}>
+            Create Account
+          </StyledText>
+
+          <StyledInputComponent
+            placeholder="Email"
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+              setErrors({...errors, email: ''});
+            }}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={errors.email}
+          />
+
+          <StyledInputComponent
+            placeholder="Username"
+            value={username}
+            onChangeText={(text) => {
+              setUsername(text);
+              setErrors({...errors, username: ''});
+            }}
+            autoCapitalize="none"
+            error={errors.username}
+          />
+
+          <StyledInputComponent
+            placeholder="Password"
+            value={password}
+            onChangeText={(text) => {
+              setPassword(text);
+              setErrors({...errors, password: ''});
+            }}
+            secureTextEntry
+            error={errors.password}
+          />
+
+          <StyledInputComponent
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+              setErrors({...errors, confirmPassword: ''});
+            }}
+            secureTextEntry
+            error={errors.confirmPassword}
+            onSubmitEditing={handleSubmit}
+          />
+          
+          <View style={{ marginTop: 20 }}>
+            <StyledButton
+              style={{ alignItems: 'center' }}
+              size="lg"
+              text="Register"
+              onPress={handleSubmit}
+              loading={isLoading}
+              disabled={isLoading}
+            />
+          </View>
+
+          <View style={{ 
+            flexDirection: 'row', 
+            justifyContent: 'center',
+            marginTop: 10,
+            gap: 4
+          }}>
+            <StyledText>
+              Already have an account?
+            </StyledText>
+            <Link href="/login" asChild>
+              <TouchableOpacity>
+                <StyledText style={{ 
+                  color: Colors.dark.primary,
+                  fontWeight: 'bold',
+                }}>
+                  Login
+                </StyledText>
+              </TouchableOpacity>
+          </Link>
+        </View>
+    </View>
+  )
+
   return (
-    <ScrollView 
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled"
-    >
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Create Account</Text>
-        
-        <StyledInputComponent
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          error={errors.email}
-        />
-
-        <StyledInputComponent
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
-          error={errors.username}
-        />
-
-        <StyledInputComponent
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          error={errors.password}
-        />
-
-        <StyledInputComponent
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          error={errors.confirmPassword}
-        />
-
-        <StyledButtonComponent
-          size="lg"
-          text="Register"
-          onPress={handleRegister}
-          style={styles.button}
-        />
-
-        <Text 
-          style={styles.loginLink}
-          onPress={() => router.replace('/login')}
+    <View style={{ 
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      backgroundColor: Colors.dark.background,
+      padding: 20,
+    }}>
+      {Platform.OS === 'web' ? (
+        <form 
+          onSubmit={handleSubmit}
+          style={{ width: '100%', maxWidth: 300, gap: 10, display: "flex", flexDirection: "column" }}
         >
-          Already have an account? Login
-        </Text>
-      </View>
-    </ScrollView>
+          {formContent}
+        </form>
+      ) : (
+        <View 
+          style={{ width: '100%', maxWidth: 300, gap: 10, display: "flex", flexDirection: "column" }}
+        >
+          {formContent}
+        </View>
+      )}
+    </View>
   );
 }
 

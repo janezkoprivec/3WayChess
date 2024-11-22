@@ -5,22 +5,20 @@ import { Colors } from "@/constants/Colors";
 export default function HomeScreen() {
 
   return (
-    <>
       <View
+        id="test123"
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: Colors["dark"].background,
-          height: "100%",
           alignSelf: "center",
+          width: "100%",
+          height: "100%",
         }}
       >
-        <View>
-          <GameRoomsComponent />
-        </View>
+        <GameRoomsComponent />
       </View>
 
-    </>
   );  
 }
