@@ -1,5 +1,5 @@
 export type Game = {
-  _id: string;
+  id: string;
   name: string;
   status: "active" | "waiting" | "finished";
   players: Player[];
@@ -14,7 +14,6 @@ export type User = {
 }
 
 export type Player = {
-  _id: string;
   user: User;
   color: string;
 }

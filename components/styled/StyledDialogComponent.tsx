@@ -13,6 +13,7 @@ interface StyledDialogProps {
   closeButtonText?: string;
   submitButtonText?: string;
   uncloseable?: boolean;
+  titleCenter?: boolean;
 }
 
 export default function StyledDialog({
@@ -24,6 +25,7 @@ export default function StyledDialog({
   closeButtonText = "Cancel",
   submitButtonText = "Submit",
   uncloseable = false,
+  titleCenter = false,
 }: StyledDialogProps) {
   const handleOverlayPress = () => {
     if (!uncloseable && onClose) {
@@ -51,12 +53,14 @@ export default function StyledDialog({
             onStartShouldSetResponder={() => true}
             style={styles.dialogContent}
           >
-            <StyledText style={styles.title}>{title}</StyledText>
+            <View style={{alignItems: titleCenter ? "center" : "flex-start", width: "100%"}}>  
+              <StyledText style={styles.title}>{title}</StyledText>
+            </View>
             
             {children}
 
             <View style={styles.buttonContainer}>
-              {!uncloseable && onClose && (
+              {onClose && (
                 <StyledButton 
                   size="md" 
                   text={closeButtonText} 

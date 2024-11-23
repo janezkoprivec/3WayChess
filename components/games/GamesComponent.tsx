@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Game, TimeControl } from "@/models/db/GameModels";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import StyledButton from "@/components/styled/StyledButtonComponent";
 import { Manager, Socket } from "socket.io-client";
@@ -15,10 +15,8 @@ import GameWaitingDialog from "./dialogs/GameWaitingDialog";
 export default function GamesComponent() {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-  const [joinedGame, setJoinedGame] = useState<Game | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [createDialogVisible, setCreateDialogVisible] = useState(false);
-  const [waitingDialogVisible, setWaitingDialogVisible] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string>("random");
   const [gamesSocket, setGamesSocket] = useState<Socket | null>(null);
   const auth = useAuth(); 
@@ -35,8 +33,10 @@ export default function GamesComponent() {
     });
 
     gamesSocket.on("game-created", (game) => {
-      setJoinedGame(game);
-      setWaitingDialogVisible(true);
+      router.push({
+        pathname: "/game/[id]",
+        params: { id: game._id, selectedColor }
+      });
     });
 
     gamesSocket.on("error", (error) => {
@@ -56,9 +56,12 @@ export default function GamesComponent() {
   const handleJoinGame = (game: Game, selectedColor: string) => {
     setDialogVisible(false);
     setSelectedGame(null);
-    setJoinedGame(game);
-    setWaitingDialogVisible(true);
-    
+
+    router.push({
+      pathname: "/game/[id]",
+      params: { id: game.id, selectedColor }
+    });
+  
   };
 
   const handleCreateGame = (
@@ -81,7 +84,7 @@ export default function GamesComponent() {
         <View style={styles.container}>
           <ScrollView>
             {games.map((game) => (
-              <Pressable key={game._id} onPress={() => handleGamePress(game)}>
+              <Pressable key={game.id} onPress={() => handleGamePress(game)}>
                 <GameListItemComponent game={game} />
               </Pressable>
             ))}
@@ -101,15 +104,6 @@ export default function GamesComponent() {
           onCreate={handleCreateGame}
         />
 
-        {joinedGame && (
-          <GameWaitingDialog
-            game={joinedGame}
-            visible={waitingDialogVisible}
-            onClose={() => setWaitingDialogVisible(false)}
-            selectedColor={selectedColor}
-          />
-        )}
-
         <View
           style={{
             // flex: 1,
@@ -127,7 +121,7 @@ export default function GamesComponent() {
             text="New online game"
             onPress={() => setCreateDialogVisible(true)}
           />
-          <Link href="/game/1" asChild>
+          <Link href="/offline" asChild>
             <StyledButton style={styles.button} size="lg" text="New offline game" />
           </Link>
         </View>

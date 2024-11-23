@@ -6,12 +6,13 @@ import RapidIcon from "@/components/svg-icons/rapid";
 import BlitzIcon from "@/components/svg-icons/blitz";
 import BulletIcon from "@/components/svg-icons/bullet";
 import { UserAvatarComponent } from "@/components/styled/UserAvatarComponent";
+import StyledGameTypeIcon from "@/components/styled/StyledGameTypeIconComponent";
 
 export default function GameListItemComponent({ game }: { game: Game }) {
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
-        <StyledText style={styles.name}>{game.name ?? game._id} </StyledText>
+        <StyledText style={styles.name}>{game.name ?? game.id} </StyledText>
         <StyledText style={styles.players}>({game.players.length}/3)</StyledText>
       </View>
 
@@ -19,7 +20,7 @@ export default function GameListItemComponent({ game }: { game: Game }) {
 
         <View style={styles.nameContainer}>
           {game.players.map((player) => (
-            <View key={player._id} style={styles.playerContainer}>
+            <View key={player.user._id} style={styles.playerContainer}>
               <UserAvatarComponent
                 imageUrl={player.user.profilePictureUrl ?? ""}
                 size={24}
@@ -32,15 +33,7 @@ export default function GameListItemComponent({ game }: { game: Game }) {
         </View>
 
         <View style={styles.endContainer}>
-          <View style={styles.timeControlIcon}>
-            {game.timeControl.type === "rapid" ? (
-              <RapidIcon width={24} height={24} />
-            ) : game.timeControl.type === "blitz" ? (
-              <BlitzIcon width={24} height={24} />
-            ) : (
-              <BulletIcon width={24} height={24} />
-            )}
-          </View>
+          <StyledGameTypeIcon gameType={game.timeControl.type} />
 
           <View style={styles.timeControlContainer}>
             {game.timeControl.increment > 0 ? (

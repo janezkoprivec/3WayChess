@@ -11,6 +11,7 @@ import { UserAvatarComponent } from "@/components/styled/UserAvatarComponent";
 import SelectColorComponent from "@/components/styled/SelectColorComponent";
 import { useState } from "react";
 import StyledDialog from "@/components/styled/StyledDialogComponent";
+import StyledUserComponent from "@/components/styled/StyledUserComponent";
 
 interface GameJoinDialogProps {
   game: Game | null;
@@ -44,20 +45,7 @@ export default function GameJoinDialog({
           </StyledText>
           <View style={styles.playersContainer}>
             {game.players.map((player) => (
-              <View key={player._id} style={styles.playerContainer}>
-                <UserAvatarComponent
-                  imageUrl={player.user.profilePictureUrl}
-                  size={24}
-                />
-                <StyledText>{player.user.username}</StyledText>
-                {player.color === "white" ? (
-                  <WhitePawn style={{ width: 24, height: 24 }} />
-                ) : player.color === "black" ? (
-                  <BlackPawn style={{ width: 24, height: 24 }} />
-                ) : (
-                  <GreyPawn style={{ width: 24, height: 24 }} />
-                )}
-              </View>
+              <StyledUserComponent key={player.user._id} user={player.user} color={player.color} />
             ))}
           </View>
         </View>
