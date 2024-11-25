@@ -24,3 +24,18 @@ export type TimeControl = {
   time: number; // in minutes
   increment: number; // in seconds
 }
+
+export type Position = {
+  i: number;
+  j: number;
+}
+
+export type Move = {
+  from: Position;
+  to: Position;
+}
+
+export type PlayerMove = {
+  move: Move;
+  userId: string;
+}

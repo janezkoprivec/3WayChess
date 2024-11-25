@@ -22,7 +22,7 @@ export default function GamesComponent() {
   const auth = useAuth(); 
 
   const setUpSockets = () => {
-    const socketManager = new Manager("http://localhost:3000");
+    const socketManager = new Manager(process.env.EXPO_PUBLIC_API_URL);
 
     const gamesSocket = socketManager.socket("/games");
 

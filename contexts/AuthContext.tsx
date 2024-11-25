@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 // import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 export interface AuthProps {
   authState?: {
     token: string | null;
@@ -25,7 +24,7 @@ export interface AuthProps {
 
 const TOKEN_KEY = "jwt-token";
 const USER_KEY = "user";
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const AuthContext = createContext<AuthProps>({});
 
 export default function useAuth() {
@@ -102,6 +101,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const login = async (username: string, password: string) => {
+    console.log('api url', API_URL);
     try {
       setLoading(true);
 

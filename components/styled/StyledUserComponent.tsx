@@ -9,21 +9,29 @@ import StyledText from "./StyledTextComponent";
 export default function StyledUserComponent({
   user,
   color,
+  displayColor = true,
+  textSize = 16,
+  iconsSize = 24,
+  profilePictureSize = 24,
 }: {
   user: User;
   color: string;
+  displayColor?: boolean;
+  textSize?: number;
+  iconsSize?: number;
+  profilePictureSize?: number;
 }) {
   return (
     <View style={styles.playerContainer}>
-      <UserAvatarComponent imageUrl={user.profilePictureUrl ?? ""} size={24} />
-      <StyledText>{user.username}</StyledText>
-      {color === "white" ? (
-        <WhitePawn style={{ width: 24, height: 24 }} />
+      <UserAvatarComponent imageUrl={user.profilePictureUrl ?? ""} size={profilePictureSize} />
+      <StyledText style={{ fontSize: textSize }}>{user.username}</StyledText>
+      {displayColor && (color === "white" ? (
+        <WhitePawn style={{ width: iconsSize, height: iconsSize }} />
       ) : color === "black" ? (
-        <BlackPawn style={{ width: 24, height: 24 }} />
+        <BlackPawn style={{ width: iconsSize, height: iconsSize }} />
       ) : (
-        <GreyPawn style={{ width: 24, height: 24 }} />
-      )}
+        <GreyPawn style={{ width: iconsSize, height: iconsSize }} />
+      ))}
     </View>
   );
 }
@@ -31,7 +39,7 @@ export default function StyledUserComponent({
 const styles = StyleSheet.create({
   playerContainer: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     gap: 8,
   },
 });

@@ -7,8 +7,8 @@ import { Colors } from '@/constants/Colors';
 
 function GameScreen() {
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.dark.background }}>
-      <View style={{marginTop: 16, marginLeft: 16 }}>
+    <View style={{ flex: 1, backgroundColor: Colors.dark.background, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <View style={{marginTop: 32}}>
           <BoardComponent />
       </View>
     </View>
