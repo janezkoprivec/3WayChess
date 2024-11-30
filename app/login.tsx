@@ -140,7 +140,7 @@ export default function LoginScreen() {
       {Platform.OS === "web" ? (
         <form
           onSubmit={handleSubmit}
-          style={{ width: "100%", maxWidth: 300, gap: 10, backgroundColor: Colors.dark.background2, padding: 20, borderRadius: 10}}
+          style={{ width: "100%", maxWidth: 300, gap: 10, padding: 20, borderRadius: 10}}
         >
           {formContent}
         </form>
