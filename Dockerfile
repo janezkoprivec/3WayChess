@@ -25,6 +25,7 @@ EXPOSE 19006 19000 19001 8081
 ENV CI=1
 ENV REACT_NATIVE_PACKAGER_HOSTNAME=0.0.0.0
 ENV EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+ENV HOST=0.0.0.0
 
 # Start the application in web mode
-CMD ["sh", "-c", "npx expo start --web --lan"] 
+CMD ["sh", "-c", "npx expo start --web --host 0.0.0.0"] 
