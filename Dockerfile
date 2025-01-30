@@ -33,4 +33,4 @@ RUN npx expo export --platform web
 RUN npm install -g serve
 
 # Start the web server
-CMD serve dist --listen 8081 
+CMD serve dist --listen tcp://0.0.0.0:8081 
