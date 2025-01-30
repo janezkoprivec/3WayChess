@@ -18,14 +18,19 @@ RUN npm install
 # Copy the rest of the application
 COPY . .
 
-# Expose ports
-EXPOSE 19006 19000 19001 8081
+# Expose only web port
+EXPOSE 8081
 
 # Set environment variables
 ENV CI=1
-ENV REACT_NATIVE_PACKAGER_HOSTNAME=0.0.0.0
-ENV EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
-ENV HOST=0.0.0.0
+ENV NODE_ENV=production
+ENV PORT=8081
 
-# Start the application in web mode
-CMD ["sh", "-c", "npx expo start --web --lan"] 
+# Build the web bundle
+RUN npx expo export --platform web
+
+# Install serve to host the static files
+RUN npm install -g serve
+
+# Start the web server
+CMD serve dist --listen 8081 
