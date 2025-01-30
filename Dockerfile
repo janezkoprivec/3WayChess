@@ -28,4 +28,4 @@ ENV EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
 ENV HOST=0.0.0.0
 
 # Start the application in web mode
-CMD ["sh", "-c", "npx expo start --web --host 0.0.0.0"] 
+CMD ["sh", "-c", "npx expo start --web --lan"] 
