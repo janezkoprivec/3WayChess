@@ -1,0 +1,6 @@
+[submodule "3WayChessServer"]
+	path = 3WayChessServer
+	url = https://github.com/janezkoprivec/3WayChessServer
+[submodule "3WayChessFrontend"]
+	path = 3WayChessFrontend
+	url = https://github.com/janezkoprivec/3WayChessFrontend
